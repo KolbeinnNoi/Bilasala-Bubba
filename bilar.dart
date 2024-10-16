@@ -31,6 +31,14 @@ class BilTegund {
     this.litur,
     this.typa
   });
+  
+  // svo listinn verði notendavænni þegar hann er prentaður út
+  @override
+  String toString() {
+    return "Tegund: $tegund, Gerð: $gerd, Árg: $argerd, Litur: $litur, Orkugjafi: ${typa?.eldsneytisTegundir}, Týpur: ${typa?.typur?.join(", ")}";
+  }
+
+
 }
 
 class Typa {
@@ -42,7 +50,14 @@ class Typa {
     this.eldsneytisTegundir,
     this.typur
   });
-}
+
+  @override 
+    String toString() {
+      return "Orkugjafi: $eldsneytisTegundir, Týpur: ${typur?.join(", ")}";
+    }
+  }
+
+
 
 List<BilTegund> bilarTilSolu = [
     BilTegund(tegund: "Toyota", gerd: "Land Cruiser", argerd: 2017, litur: "Hvítur", typa: Typa(eldsneytisTegundir: "Dísel", typur: ["Jeppi"])),
@@ -63,14 +78,37 @@ List<BilTegund> bilarTilSolu = [
     BilTegund(tegund: "Tesla", gerd: "Model 3", argerd: 2021, litur: "Hvítur", typa: Typa(eldsneytisTegundir: "Rafmagn", typur: ["Skutbíll"])),
 ];
 
-List<String> tegund = ["Toyota", "Audi", "Volkswagen", "Hyundai", "Subaru", "Mitsubishi", "Suzuki", "Kia", "Nissan", "Ford", "Jeep", "Dacia", "Land Rover", "Tesla", "Volvo", "Renault", "Mazda", "Skoda", "Peugeot", "Honda"];
-List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
-List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
-List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
-List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
+// dæmi um gerð  dæmi um tegund etc
 
 
+void skilabod() {
+  print("Ýttu á '1' ef þú vilt sjá alla bílana sem eru til sölu hjá okkur");
+  print("Ýttu á '2' ef þú vilt leita að bílum til sölu hjá okkur með síum, svo sem tegund, gerð, eða hvaða orkugjafa bíllinn hefur og fleira.");
+  print("Ýttu á '3' ef þú vilt fara út af bílasölunni");
+}
 
+void synaAllaBila () {
+  for(int i = 0; i < bilarTilSolu.length; i++) {
+    print("Bíll númer: ${i + 1}");
+    print(bilarTilSolu[i]);
+    print("--------------------------------------------------------------------------------");
+  }
+  }
 
+BilTegund? synaBilaEftirSium () {
+  List<String> tegund = ["Toyota", "Audi", "Volkswagen", "Hyundai", "Subaru", "Mitsubishi", "Suzuki", "Kia", "Nissan", "Ford", "Jeep", "Dacia", "Land Rover", "Tesla", "Volvo", "Renault", "Mazda", "Skoda", "Peugeot", "Honda"];
+  List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
+  List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
+  List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
+  List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
+  
+  print("Veldu tegund af bíl með því að velja númerið sem er fyrir framan tegundina eða ýttu á 'Enter' til að sleppa");
+  print("Tegundir sem þú getur valið úr eru");
+  print(tegund);
+  
+}  
 
+void main () {
+ synaBilaEftirSium();
+}
 
