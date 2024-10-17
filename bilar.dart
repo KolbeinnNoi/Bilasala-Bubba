@@ -96,19 +96,60 @@ void synaAllaBila () {
   }
 
 BilTegund? synaBilaEftirSium () {
+  String raudur = '\u001b[31m';
+  String graenn = '\u001b[32m';
+  String gulur = '\u001b[33m';
+  String blar = '\u001b[34m';
+  String endir = '\u001b[0m'; 
   List<String> tegund = ["Toyota", "Audi", "Volkswagen", "Hyundai", "Subaru", "Mitsubishi", "Suzuki", "Kia", "Nissan", "Ford", "Jeep", "Dacia", "Land Rover", "Tesla", "Volvo", "Renault", "Mazda", "Skoda", "Peugeot", "Honda"];
+  // String resultTegund til að hafa þetta í sömu línu svo þetta taki ekki of mikið pláss og svo það sé bil á milli 
+  String resultTegund = tegund
+     .asMap()
+     .entries
+     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+     .join(" ");
   List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
+    String resultGerd = gerd
+     .asMap()
+     .entries
+     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+     .join(" ");
   List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
+    String resultOrkugjafi = eldsneyti
+     .asMap()
+     .entries
+     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+     .join(" ");
   List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
+    String resultGerdAfBil = gerdAfBil
+     .asMap()
+     .entries
+     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+     .join(" ");
   List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
+    String resultLitur = litur
+     .asMap()
+     .entries
+     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+     .join(" ");
   
-  print("Veldu tegund af bíl með því að velja númerið sem er fyrir framan tegundina eða ýttu á 'Enter' til að sleppa");
-  print("Tegundir sem þú getur valið úr eru");
-  print(tegund);
-  
+  print("${blar}Tegundir sem þú getur valið á þessari bílasölu eru:${endir}");
+  print(resultTegund);
+  print("${blar}Veldu tegund af bíl með því að skrifa inn ${gulur}'Númerið'${endir} ${blar}sem er fyrir framan tegundina eða ýttu á ${gulur}'Enter'${endir}${blar} ef þú vilt ekki velja tegund!${endir}");
+
+  // Hérna látum við notandann velja úr hverjum flokki fyrir sig
+  String? inpTeg = stdin.readLineSync();
+  int? inputTegund = inpTeg != null ? int.tryParse(inpTeg) : null;
+  if (inputTegund != null && inputTegund > 0 && inputTegund <= tegund.length) {
+    print("Þú valdir $inputTegund sem er ${tegund[inputTegund -1]}");
+  }
+
+
+
 }  
 
 void main () {
+
  synaBilaEftirSium();
 }
 
