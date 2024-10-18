@@ -1,4 +1,10 @@
 import 'dart:io';
+// Litir til að velja úr 
+String raudur = '\u001b[31m';
+String graenn = '\u001b[32m';
+String gulur = '\u001b[33m';
+String blar = '\u001b[34m';
+String endir = '\u001b[0m'; 
 // Búa til bílasölu. Leita af upplýsingum um bíl.
 // Hafa tvo mismunandi klassa fyrir bíl og týpur.
 // Þarf að vera til fyrir bíl:
@@ -95,55 +101,58 @@ void synaAllaBila () {
   }
   }
 
-BilTegund? synaBilaEftirSium () {
-  String raudur = '\u001b[31m';
-  String graenn = '\u001b[32m';
-  String gulur = '\u001b[33m';
-  String blar = '\u001b[34m';
-  String endir = '\u001b[0m'; 
-  List<String> tegund = ["Toyota", "Audi", "Volkswagen", "Hyundai", "Subaru", "Mitsubishi", "Suzuki", "Kia", "Nissan", "Ford", "Jeep", "Dacia", "Land Rover", "Tesla", "Volvo", "Renault", "Mazda", "Skoda", "Peugeot", "Honda"];
-  // String resultTegund til að hafa þetta í sömu línu svo þetta taki ekki of mikið pláss og svo það sé bil á milli 
-  String resultTegund = tegund
-     .asMap()
-     .entries
-     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
-     .join(" ");
-  List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
-    String resultGerd = gerd
-     .asMap()
-     .entries
-     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
-     .join(" ");
-  List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
-    String resultOrkugjafi = eldsneyti
-     .asMap()
-     .entries
-     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
-     .join(" ");
-  List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
-    String resultGerdAfBil = gerdAfBil
-     .asMap()
-     .entries
-     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
-     .join(" ");
-  List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
-    String resultLitur = litur
-     .asMap()
-     .entries
-     .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
-     .join(" ");
+
+
+
+// Stytting á kóða, getur séð hvernig kóðinn var neðst niðri
+int? processInput(String prompt, List<String> options, String optionType) {
+  print(prompt);
+  String result = options
+    .asMap()
+    .entries
+    .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+    .join(" ");
+  print(result);
   
-  print("${blar}Tegundir sem þú getur valið á þessari bílasölu eru:${endir}");
-  print(resultTegund);
-  print("${blar}Veldu tegund af bíl með því að skrifa inn ${gulur}'Númerið'${endir} ${blar}sem er fyrir framan tegundina eða ýttu á ${gulur}'Enter'${endir}${blar} ef þú vilt ekki velja tegund!${endir}");
-
-  // Hérna látum við notandann velja úr hverjum flokki fyrir sig
-  String? inpTeg = stdin.readLineSync();
-  int? inputTegund = inpTeg != null ? int.tryParse(inpTeg) : null;
-  if (inputTegund != null && inputTegund > 0 && inputTegund <= tegund.length) {
-    print("Þú valdir $inputTegund sem er ${tegund[inputTegund -1]}");
+  String? input = stdin.readLineSync();
+  int? selectedOption = input != null ? int.tryParse(input) : null;
+  if (selectedOption != null && selectedOption > 0 && selectedOption <= options.length) {
+    print("${blar}Þú valdir $selectedOption sem er ${options[selectedOption - 1]}${endir}");
+    return selectedOption;
+  } else {
+    print("{${blar}Þú valdir enga $optionType${endir}");
+    return null;
   }
+}
 
+
+BilTegund? synaBilaEftirSium () {
+
+  List<String> tegund = ["Toyota", "Audi", "Volkswagen", "Hyundai", "Subaru", "Mitsubishi", "Suzuki", "Kia", "Nissan", "Ford", "Jeep", "Dacia", "Land Rover", "Tesla", "Volvo", "Renault", "Mazda", "Skoda", "Peugeot", "Honda"];
+  List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
+  List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
+  List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
+  List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
+
+  // print("${blar}Tegundir sem þú getur valið á þessari bílasölu eru:${endir}");
+  // // print(resultTegund);
+  // print("${blar}Veldu tegund af bíl með því að skrifa inn ${gulur}'Númerið'${endir} ${blar}sem er fyrir framan tegundina eða ýttu á ${gulur}'Enter'${endir}${blar} ef þú vilt ekki velja tegund!${endir}");
+  print("${gulur}Til þess að velja, skrifaru inn númerið sem er fyrir framan það sem þú vilt velja${endir}");
+  int? selectedTegund = processInput("${blar}Veldu tegund af bíl:${endir}", tegund, "tegund");
+  int? selectedGerd = processInput("${blar}Veldu gerð af bíl:${endir}", gerd, "gerð");
+  int? selectedEldsneyti = processInput("${blar}Veldu orkugjafa:${endir}", eldsneyti, "orkugjafa");
+  int? selectedGerdAfBil = processInput("${blar}Veldu gerð af bíl:${endir}", gerdAfBil, "gerð af bíl");
+  int? selectedLitur = processInput("${blar}Veldu lit:${endir}", litur, "lit");
+  
+
+List<BilTegund> filteredBilar = bilarTilSolu.where((bil) {
+  return (selectedTegund == null || bil.tegund == selectedTegund) &&
+         (selectedGerd == null || bil.gerd == selectedGerd) &&
+         (selectedEldsneyti == null || bil.typa?.eldsneytisTegundir == selectedEldsneyti) &&
+         (selectedGerdAfBil == null || bil.typa?.typur?.contains(selectedGerdAfBil) == true) &&
+         (selectedLitur == null || bil.litur == selectedLitur);
+}).toList();
+  
 
 
 }  
@@ -153,3 +162,78 @@ void main () {
  synaBilaEftirSium();
 }
 
+
+
+  // String resultTegund = tegund
+  //    .asMap()
+  //    .entries
+  //    .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+  //    .join(" ");
+  // List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
+  //   String resultGerd = gerd
+  //    .asMap()
+  //    .entries
+  //    .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+  //    .join(" ");
+  // List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
+  //   String resultOrkugjafi = eldsneyti
+  //    .asMap()
+  //    .entries
+  //    .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+  //    .join(" ");
+  // List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
+  //   String resultGerdAfBil = gerdAfBil
+  //    .asMap()
+  //    .entries
+  //    .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+  //    .join(" ");
+  // List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
+  //   String resultLitur = litur
+  //    .asMap()
+  //    .entries
+  //    .map((entry) => "${gulur}${entry.key + 1}:${endir} ${entry.value}")
+  //    .join(" ");
+
+
+    // Hérna látum við notandann velja úr hverjum flokki fyrir sig
+  // String? inpTeg = stdin.readLineSync();
+  // int? inputTegund = inpTeg != null ? int.tryParse(inpTeg) : null;
+  // if (inputTegund != null && inputTegund > 0 && inputTegund <= tegund.length) {
+  //   print("Þú valdir $inputTegund sem er ${tegund[inputTegund -1]}");
+  // } else {
+  //   print("${blar}{Þú valdir enga tegund${endir}");
+  // }
+  
+  // String? inpGe = stdin.readLineSync();
+  // int? inputGerd = inpGe != null ? int.tryParse(inpGe) : null;
+  // if (inputGerd != null && inputGerd > 0 && inputGerd <= gerd.length) {
+  //   print("Þú valdir $inputTegund sem er ${gerd[inputGerd -1]}");
+  // } else {
+  //   print("${blar}{Þú valdir enga gerð af bíl${endir}");
+  // }
+  
+  // String? inpEldsneyti = stdin.readLineSync();
+  // int? inputEldsneyti = inpEldsneyti != null ? int.tryParse(inpEldsneyti) : null;
+  // if (inputEldsneyti != null && inputEldsneyti > 0 && inputEldsneyti <= eldsneyti.length) {
+  //   print("Þú valdir $inputEldsneyti sem er ${eldsneyti[inputEldsneyti - 1]}");
+  // } else {
+  //   print("${blar}{Þú valdir engan orkugjafa${endir}");
+  // }
+
+  
+  // String? inpGerdAfBil = stdin.readLineSync();
+  // int? inputGerdAfBil = inpGerdAfBil != null ? int.tryParse(inpGerdAfBil) : null;
+  // if (inputGerdAfBil != null && inputGerdAfBil > 0 && inputGerdAfBil <= gerdAfBil.length) {
+  //   print("Þú valdir $inputGerdAfBil sem er ${gerdAfBil[inputGerdAfBil - 1]}");
+  // } else {
+  //   print("${blar}{Þú valdir enga gerð af bíl${endir}");
+  // }
+
+  
+  // String? inpLitur = stdin.readLineSync();
+  // int? inputLitur = inpLitur != null ? int.tryParse(inpLitur) : null;
+  // if (inputLitur != null && inputLitur > 0 && inputLitur <= litur.length) {
+  //   print("Þú valdir $inputLitur sem er ${litur[inputLitur - 1]}");
+  // } else {
+  //   print("${blar}{Þú valdir engan lit${endir}");
+  // }
