@@ -41,7 +41,7 @@ class BilTegund {
   // svo listinn verði notendavænni þegar hann er prentaður út
   @override
   String toString() {
-    return "Tegund: $tegund, Gerð: $gerd, Árg: $argerd, Litur: $litur, Orkugjafi: ${typa?.eldsneytisTegundir}, Týpur: ${typa?.typur?.join(", ")}";
+    return "${graenn}$tegund $gerd, Árg: $argerd, ${typa?.eldsneytisTegundir} ${typa?.typur?.join(", ")}, $litur á litinn${endir}";
   }
 
 
@@ -129,7 +129,7 @@ int? processInput(String prompt, List<String> options, String optionType) {
 BilTegund? synaBilaEftirSium () {
 
   List<String> tegund = ["Toyota", "Audi", "Volkswagen", "Hyundai", "Subaru", "Mitsubishi", "Suzuki", "Kia", "Nissan", "Ford", "Jeep", "Dacia", "Land Rover", "Tesla", "Volvo", "Renault", "Mazda", "Skoda", "Peugeot", "Honda"];
-  List<String> gerd = ["Land Cruiser", "RS6", "Golf Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
+  List<String> gerd = ["Land Cruiser", "RS6", "Gti", "Tucson", "Forester", "Outlander", "Vitara", "Sportage", "Hilux", "Qashqai", "Ranger", "Wrangler", "Duster", "Yaris", "Discovery", "Model 3"];
   List<String> eldsneyti = ["Dísel", "Bensín", "Hybrid", "Rafmagn"];
   List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
   List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
@@ -146,19 +146,34 @@ BilTegund? synaBilaEftirSium () {
   
 
 List<BilTegund> filteredBilar = bilarTilSolu.where((bil) {
-  return (selectedTegund == null || bil.tegund == selectedTegund) &&
-         (selectedGerd == null || bil.gerd == selectedGerd) &&
-         (selectedEldsneyti == null || bil.typa?.eldsneytisTegundir == selectedEldsneyti) &&
-         (selectedGerdAfBil == null || bil.typa?.typur?.contains(selectedGerdAfBil) == true) &&
-         (selectedLitur == null || bil.litur == selectedLitur);
+  return (selectedTegund == null || bil.tegund == tegund[selectedTegund - 1]) &&
+         (selectedGerd == null || bil.gerd == gerd[selectedGerd - 1]) &&
+         (selectedEldsneyti == null || bil.typa?.eldsneytisTegundir == eldsneyti[selectedEldsneyti - 1]) &&
+         (selectedGerdAfBil == null || bil.typa?.typur?.contains(gerdAfBil[selectedGerdAfBil - 1]) == true) &&
+         (selectedLitur == null || bil.litur == litur[selectedLitur - 1]);
 }).toList();
+
+
+  // Check if any cars matched the filter
+  if (filteredBilar.isNotEmpty) {
+    print("${graenn}Bílar sem passa við leitarskilyrði þín:${endir}");
+    for (var bil in filteredBilar) {
+      print(bil);
+      print("---------------------------------------------------------------");
+    }
+  } else {
+    print("${raudur}Enginn bíll fannst sem passar við leitarskilyrðin.${endir}");
+  }
+  
+  return null;
+
   
 
 
 }  
 
 void main () {
-
+ 
  synaBilaEftirSium();
 }
 
