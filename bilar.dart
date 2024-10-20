@@ -28,7 +28,7 @@ class BilTegund {
   int? argerd;
   String? litur;
   Typa? typa;
-  // Set ekki required fyrir framan eins og í dæminu úr tíma því fólk á að geta séð alla bílana sem eru á sölu jafnvel þótt þau velja ekkert.
+  // Set ekki required fyrir framan eins og í dæminu úr tíma því fólk á að geta séð alla bílana sem eru á sölu jafnvel þótt input sé tómt.
   BilTegund ({
     this.tegund,
     // gerð = gerd
@@ -57,10 +57,6 @@ class Typa {
     this.typur
   });
 
-  @override 
-    String toString() {
-      return "Orkugjafi: $eldsneytisTegundir, Týpur: ${typur?.join(", ")}";
-    }
   }
 
 
@@ -84,21 +80,40 @@ List<BilTegund> bilarTilSolu = [
     BilTegund(tegund: "Tesla", gerd: "Model 3", argerd: 2021, litur: "Hvítur", typa: Typa(eldsneytisTegundir: "Rafmagn", typur: ["Skutbíll"])),
 ];
 
-// dæmi um gerð  dæmi um tegund etc
+
 
 
 void skilabod() {
-  print("Ýttu á '1' ef þú vilt sjá alla bílana sem eru til sölu hjá okkur");
-  print("Ýttu á '2' ef þú vilt leita að bílum til sölu hjá okkur með síum, svo sem tegund, gerð, eða hvaða orkugjafa bíllinn hefur og fleira.");
-  print("Ýttu á '3' ef þú vilt fara út af bílasölunni");
+  print("${blar}Ýttu á '1' ef þú vilt sjá alla bílana sem eru til sölu hjá okkur");
+  print("Ýttu á '2' til að finna bíla til sölu hjá okkur með ýmsum síum, svo sem tegund, gerð, eða hvaða orkugjafa bíllinn hefur og fleira.");
+  print("Ýttu á '3' ef þú vilt fara út af bílasölunni${endir}");
+  print("------------------------------------------------------------------------------------------------------------------------------------");
 }
 
 void synaAllaBila () {
   for(int i = 0; i < bilarTilSolu.length; i++) {
-    print("Bíll númer: ${i + 1}");
-    print(bilarTilSolu[i]);
+    print("${graenn}Bíll númer: ${i + 1}");
+    print("${bilarTilSolu[i]}${endir}");
     print("--------------------------------------------------------------------------------");
   }
+  print("${blar}Ef þú vilt prufa velja bíla með ýmsum síum, svo sem tegund, gerð, eða hvaða orkugjafa bíllinn hefur og fleira.");
+  print("Ýttu þá á ${gulur}'2'");
+  print("${blar}annars til að fara út af bílasölunni");
+  print("ýttu á ${gulur}'3'${endir}");
+ 
+  String? synaAllaInput = stdin.readLineSync();
+
+  switch (synaAllaInput) {
+    case '2':
+      synaBilaEftirSium();
+      break;
+    
+    case '3':
+      exit(0);
+    
+    default:
+    print("${raudur}$synaAllaInput virkar ekki hérna þú verður að velja annaðhvort ${gulur}'2'${endir}${raudur} eða ${gulur}'3'${endir}");
+  }   
   }
 
 
@@ -134,15 +149,12 @@ BilTegund? synaBilaEftirSium () {
   List<String> gerdAfBil = ["Jeppi", "Fólksbíll", "Sportbíll", "Skutbíll", "Pallbíll"];
   List<String> litur = ["Hvítur", "Svartur", "Blár", "Grænn", "Rauður", "Silfur", "Grár", "Appelsínugulur"];
 
-  // print("${blar}Tegundir sem þú getur valið á þessari bílasölu eru:${endir}");
-  // // print(resultTegund);
-  // print("${blar}Veldu tegund af bíl með því að skrifa inn ${gulur}'Númerið'${endir} ${blar}sem er fyrir framan tegundina eða ýttu á ${gulur}'Enter'${endir}${blar} ef þú vilt ekki velja tegund!${endir}");
   print("${gulur}Til þess að velja, skrifaru inn númerið sem er fyrir framan það sem þú vilt velja${endir}");
   int? selectedTegund = processInput("${blar}Veldu tegund af bíl:${endir}", tegund, "tegund");
   int? selectedGerd = processInput("${blar}Veldu gerð af bíl:${endir}", gerd, "gerð");
   int? selectedEldsneyti = processInput("${blar}Veldu orkugjafa:${endir}", eldsneyti, "orkugjafa");
   int? selectedGerdAfBil = processInput("${blar}Veldu gerð af bíl:${endir}", gerdAfBil, "gerð af bíl");
-  int? selectedLitur = processInput("${blar}Veldu lit:${endir}", litur, "lit");
+  int? selectedLitur = processInput("${blar}Veldu lit:${endir}", litur, "liti");
   
 
 List<BilTegund> filteredBilar = bilarTilSolu.where((bil) {
@@ -157,6 +169,7 @@ List<BilTegund> filteredBilar = bilarTilSolu.where((bil) {
   // Check if any cars matched the filter
   if (filteredBilar.isNotEmpty) {
     print("${graenn}Bílar sem passa við leitarskilyrði þín:${endir}");
+    print("---------------------------------------------------------------");
     for (var bil in filteredBilar) {
       print(bil);
       print("---------------------------------------------------------------");
@@ -164,17 +177,63 @@ List<BilTegund> filteredBilar = bilarTilSolu.where((bil) {
   } else {
     print("${raudur}Enginn bíll fannst sem passar við leitarskilyrðin.${endir}");
   }
+  print("---------------------------------------------------------------------------------");
+  print("${blar}Ef þú vilt prufa að breyta síunum þínum ýttu þá aftur á ${gulur}'2'${endir}");
+  print("---------------------------------------------------------------------------------");
+  print("${blar}en ef þú vilt sýna alla bíla sem eru til sölu ýtir þú á ${gulur}'1'${endir}");
+  print("---------------------------------------------------------------------------------");
+  print("${blar}annars til að fara út af bílasölunni ýtir þú á ${gulur}'3'${endir}");
+  String? bilarEftirSium = stdin.readLineSync();
   
+  switch(bilarEftirSium) {
+    case '1':
+      synaAllaBila();
+      break;
+
+    case '2':
+      synaBilaEftirSium();
+      break;
+
+    case '3':
+      exit(0);
+
+    default:
+    print("${raudur}$bilarEftirSium virkar ekki hérna þú verður að velja annaðhvort ${gulur}'1'${raudur},${gulur} '2'${raudur}eða ${gulur}'3'${endir}");
+  }
   return null;
 
+  
   
 
 
 }  
 
 void main () {
+ print("Velkominn á bílasölu Bubba!");
+ bool bilasalaBubba = true;
+ skilabod();
+ while(bilasalaBubba) {
  
- synaBilaEftirSium();
+ 
+ String? veljaSkilabod = stdin.readLineSync();
+
+ switch (veljaSkilabod) {
+   case '1':
+     synaAllaBila();
+     break;
+   
+   case '2':
+     synaBilaEftirSium();
+     break;
+
+   case '3':
+     bilasalaBubba = false;
+   default:
+   print("${raudur}$veljaSkilabod virkar ekki hérna þú verður að velja annaðhvort ${gulur}'1'${raudur},${gulur} '2'${raudur}eða ${gulur}'3'${endir}");
+   break;
+ }
+ 
+ }
 }
 
 
